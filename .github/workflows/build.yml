@@ -32,11 +32,28 @@ jobs:
         run: |
           unzip -q QiuAnalyzer_Specialized.zip -d extracted
 
-      - name: Enable AndroidX
+      - name: Configure AndroidX and Java 17
         working-directory: extracted/GameScreenAnalyzer_Specialized
         run: |
           echo "android.useAndroidX=true" >> gradle.properties
           echo "android.enableJetifier=true" >> gradle.properties
+          echo "android.suppressUnsupportedCompileSdk=35" >> gradle.properties
+
+          cat >> app/build.gradle <<'EOF'
+
+          android {
+              compileOptions {
+                  sourceCompatibility JavaVersion.VERSION_17
+                  targetCompatibility JavaVersion.VERSION_17
+              }
+          }
+
+          tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+              kotlinOptions {
+                  jvmTarget = "17"
+              }
+          }
+          EOF
 
       - name: Build debug APK
         working-directory: extracted/GameScreenAnalyzer_Specialized
