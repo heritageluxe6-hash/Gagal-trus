@@ -29,10 +29,11 @@ jobs:
           unzip -q /tmp/gradle.zip -d /tmp
           echo "/tmp/gradle-8.7/bin" >> "$GITHUB_PATH"
 
-      - name: Extract project
+            - name: Extract project
         run: |
           unzip -q QiuAnalyzer_Specialized.zip -d extracted
-                - name: Enable AndroidX
+
+      - name: Enable AndroidX
         working-directory: extracted/GameScreenAnalyzer_Specialized
         run: |
           echo "android.useAndroidX=true" >> gradle.properties
@@ -41,7 +42,7 @@ jobs:
       - name: Build debug APK
         working-directory: extracted/GameScreenAnalyzer_Specialized
         run: |
-          gradle --no-daemon assembleDebug
+          gradle --no-daemon assembleDebug --stacktrace --info
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
