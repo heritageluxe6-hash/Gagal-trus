@@ -34,9 +34,9 @@ jobs:
           unzip -q QiuAnalyzer_Specialized.zip -d extracted
 
       - name: Build debug APK
-        working-directory: extracted/GameScreenAnalyzer_Specialized
-        run: |
-          gradle --no-daemon assembleDebug
+  working-directory: extracted/GameScreenAnalyzer_Specialized
+  run: |
+    gradle --no-daemon assembleDebug --stacktrace --info
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
